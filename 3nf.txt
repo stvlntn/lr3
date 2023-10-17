@@ -1,0 +1,52 @@
+CREATE TABLE post (
+  id SERIAL PRIMARY KEY,
+  post_name VARCHAR(50) NOT NULL,
+  salary SMALLMONEY NOT NULL
+);
+
+CREATE TABLE procedure (
+  id SERIAL PRIMARY KEY,
+  procedure_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE department (
+  id SERIAL PRIMARY KEY,
+  department_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE pre_diagnosis (
+  id SERIAL PRIMARY KEY,
+  pre_diagnosis_name VARCHAR(50) NOT NULL
+);
+CREATE TABLE user (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  adress VARCHAR(50) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  post_id INTEGER NOT NULL REFERENCES post(id)
+);
+CREATE TABLE patient (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  adress VARCHAR(50) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  policy INTEGER NOT NULL 
+);
+
+CREATE TABLE patient_procedure (
+  id SERIAL PRIMARY KEY,
+  reception_date TIMESTAMP DEFAULT NOW(),
+  patient_id INTEGER NOT NULL REFERENCES patient(id),
+  procedure_id INTEGER NOT NULL REFERENCES procedure(id)
+);
+
+CREATE TABLE reception (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES user(id),
+  patient_id INTEGER NOT NULL REFERENCES patient(id),
+  pre_diagnosis _id INTEGER NOT NULL REFERENCES pre_diagnosis(id),
+  department_id INTEGER NOT NULL REFERENCES department(id),
+  reception_date TIMESTAMP DEFAULT NOW()
+);

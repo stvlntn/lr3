@@ -1,0 +1,164 @@
+CREATE TABLE hub_user (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    adress VARCHAR(50) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    post_id INT NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id) REFERENCES hub_post(id),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE hub_patient (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    adress VARCHAR(50) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    policy INT NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE hub_post (
+    id INT NOT NULL AUTO_INCREMENT,
+    post_name VARCHAR(50) NOT NULL,
+    salary SMALLMONEY NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE hub_department (
+    id INT NOT NULL AUTO_INCREMENT,
+    department_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE hub_pre_diagnosis (
+    id INT NOT NULL AUTO_INCREMENT,
+    pre_diagnosis_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
+CREATE TABLE hub_procedure (
+    id INT NOT NULL AUTO_INCREMENT,
+    procedure_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE sat_user (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    adress VARCHAR(50) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    post_id INT NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_user(id),
+    FOREIGN KEY (id) REFERENCES hub_post(id)
+);
+
+CREATE TABLE sat_patient (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    adress VARCHAR(50) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    policy INT NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_patient(id)
+);
+
+CREATE TABLE sat_post (
+    id INT NOT NULL AUTO_INCREMENT,
+    post_name VARCHAR(50) NOT NULL,
+    salary SMALLMONEY NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_post(id)
+);
+
+CREATE TABLE sat_department (
+    id INT NOT NULL AUTO_INCREMENT,
+    department_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_department(id)
+);
+
+CREATE TABLE sat_pre_diagnosis (
+    id INT NOT NULL AUTO_INCREMENT,
+    pre_diagnosis_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_pre_diagnosis(id),
+);
+
+
+CREATE TABLE sat_procedure (
+    id INT NOT NULL AUTO_INCREMENT,
+    procedure_name VARCHAR(50) NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id, created_at),
+    FOREIGN KEY (id) REFERENCES hub_procedure(id)
+);
+
+CREATE TABLE link_patient_procedure (
+    id INT NOT NULL AUTO_INCREMENT,
+    reception_date TIMESTAMP DEFAULT NOW(),
+    patient_id INT NOT NULL,
+    procedure_id INT NOT NULL,
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (patient_id) REFERENCES hub_patient(id),
+    FOREIGN KEY (procedure_id) REFERENCES hub_procedure(id)
+);
+
+CREATE TABLE link_reception (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    patient_id INT NOT NULL,
+    pre_diagnosis _id INT NOT NULL,
+    department_id INT NOT NULL REFERENCES,
+    reception_date TIMESTAMP DEFAULT NOW(),
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    record_surce VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES hub_user(id),
+    FOREIGN KEY (patient_id) REFERENCES hub_patient(id),
+    FOREIGN KEY (pre_diagnosis_id) REFERENCES hub_pre_diagnosis(id),
+    FOREIGN KEY (department_id) REFERENCES hub_department(id)
+);
+
